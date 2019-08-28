@@ -14,12 +14,14 @@ const getGeoCode = async (address) => {
     }
     try {
         const data = await request(options);
-        if(data.features.length === 0) return console.log('Unable to find location, try again with different search term.');
+        if(data.features.length === 0) throw('Unable to find location, try again with different search term.');
         const { center, place_name } = data.features[0];
         const [ longitude, latitude ] = center;
         return { longitude, latitude, placeName: place_name };
     } catch(err) {
-        throw('Unable to connect to geocoding service.');
+        if(err.name) throw('Unable to connect to geocoding service.')
+        else throw(err);
+        
     }
 }
 

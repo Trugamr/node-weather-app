@@ -4,7 +4,7 @@ const getWeather = async ({ longitude, latitude }) => {
     const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
     const WEATHER_BASE_URL = `https://api.darksky.net/forecast/${ WEATHER_API_KEY }/`;  
     const options = {
-        url: `${longitude},${latitude}`,
+        url: `${latitude},${longitude}`,
         baseUrl: WEATHER_BASE_URL,
         json: true,
         qs: {
