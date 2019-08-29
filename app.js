@@ -1,4 +1,5 @@
 require('dotenv').config();
+const express = require('express');
 const { getWeather } = require('./utils/weather');
 const { getGeoCode } = require('./utils/geoCode');
 
@@ -7,14 +8,46 @@ const { getGeoCode } = require('./utils/geoCode');
 //     latitude: 30.7327891
 // }
 
+const app = new express();
+const PORT = process.env.PORT || 3000
+
+app.get('/', (req, res) => {
+    res.send('<h1>Home Page</h1>');
+});
+
+app.get('/help', (req, res) => {
+    res.send({
+        name: 'tru',
+        age: 20
+    });
+});
+
+app.get('/about', (req, res) => {
+    res.send('About Page');
+});
+
+app.get('/weather', async (req, res) => {
+    try {
+        const data = await getForecast('chandigarh');
+        res.send(data);
+    } catch(err) {
+        res.send({
+            err: err.message
+        })
+        console.log(err);
+    }
+});
+
+app.listen(PORT, () => console.log(`Listening on port ${PORT}...`))
+
+
 const getForecast = async (location) => {
     try {
         const coords = await getGeoCode(location);
         const forecast = await getWeather(coords);
-        console.log(coords.placeName);
-        console.log(forecast);
+        return { ...coords, forecast };
     } catch(err) {
-        console.log(err);
+        throw(err);
     } 
 }
 

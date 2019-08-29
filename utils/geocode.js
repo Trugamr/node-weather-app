@@ -19,9 +19,8 @@ const getGeoCode = async (address) => {
         const [ longitude, latitude ] = center;
         return { longitude, latitude, placeName: place_name };
     } catch(err) {
-        if(err.name) throw('Unable to connect to geocoding service.')
-        else throw(err);
-        
+        if(err.name) throw(new Error('Unable to connect to geocoding service.'));
+        else throw(new Error(err));        
     }
 }
 
