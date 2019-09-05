@@ -3,6 +3,8 @@ const path = require('path')
 const express = require('express')
 const { getWeather } = require('../utils/weather')
 const { getGeoCode } = require('../utils/geoCode')
+const hbs = require('hbs')
+
 
 // let coords = {
 //     longitude: 76.779419,
@@ -11,16 +13,23 @@ const { getGeoCode } = require('../utils/geoCode')
 
 const app = new express()
 const PORT = process.env.PORT || 3000
-const publicPath = path.join(__dirname, '../public')
-const viewsPath = path.join(__dirname, '../templates')
 
+// define paths for express config
+const publicPath = path.join(__dirname, '../public')
+const viewsPath = path.join(__dirname, '../templates/views')
+const partialsPath = path.join(__dirname, '../templates/partials')
+
+// set handlebars engine and views location
 app.set('view engine', 'hbs')
 app.set('views', viewsPath)
+hbs.registerPartials(partialsPath)
+
+// setup static directory
 app.use(express.static(publicPath))
 
 
 app.get('/', (req, res) => {
-    res.render('index', { name: 'tru ^_^' })
+    res.render('index', { title: 'tru ^_^' })
 })
 
 app.get('/weather', async (req, res) => {
@@ -41,6 +50,15 @@ app.get('/about', (req, res) => {
 
 app.get('/help', (req, res) => {
     res.render('help', { title: 'Help', msg: 'Some help message.' });
+})
+
+// 404 page
+app.get('/help/*', (req, res) => {
+    res.render('404-page', { error: '404 | help article not found' })
+})
+
+app.get('*', (req, res) => {
+    res.render('404-page', { error: '404 | not found.'})
 })
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}...`))
