@@ -29,7 +29,7 @@ app.use(express.static(publicPath))
 
 
 app.get('/', (req, res) => {
-    res.render('index', { title: 'tru ^_^' })
+    res.render('index', { title: 'Weather' })
 })
 
 app.get('/weather', async (req, res) => {
@@ -58,7 +58,7 @@ app.get('/help/*', (req, res) => {
 })
 
 app.get('*', (req, res) => {
-    res.render('404-page', { error: '404 | not found.'})
+    res.render('404-page', { title:'404', error: '404 - Page not found.'})
 })
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}...`))
