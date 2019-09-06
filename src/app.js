@@ -33,15 +33,23 @@ app.get('/', (req, res) => {
 })
 
 app.get('/weather', async (req, res) => {
-    try {
-        const data = await getForecast('chandigarh')
-        res.send(data)
-    } catch(err) {
-        res.status.send({
-            err: err.message
-        })
-        console.log(err)
+    const { search } = req.query
+    if(search) {
+        try {
+            const data = await getForecast(search)
+            data.search = search
+            return res.send(data)
+        } catch(err) {
+            return res.send({
+                error: err.message
+            })            
+        }
     }
+
+    res.status(200).send({
+        error: "You must provide a search term."
+    })
+    
 })
 
 app.get('/about', (req, res) => {
@@ -49,12 +57,12 @@ app.get('/about', (req, res) => {
 })
 
 app.get('/help', (req, res) => {
-    res.render('help', { title: 'Help', msg: 'Some help message.' });
+    res.render('help', { title: 'Help', msg: 'Why are you here ?' });
 })
 
 // 404 page
 app.get('/help/*', (req, res) => {
-    res.render('404-page', { error: '404 | help article not found' })
+    res.render('404-page', { error: '404 - Help article not found' })
 })
 
 app.get('*', (req, res) => {

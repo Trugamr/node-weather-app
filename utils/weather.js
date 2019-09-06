@@ -16,7 +16,7 @@ const getWeather = async ({ longitude, latitude }) => {
         const data = await request(options);
         const { precipProbability, temperature } = data.currently;
         const { summary } = data.daily.data[0];
-        return (`${summary} Is's currenty ${temperature} degrees out. There is a ${precipProbability * 100}% chance of rain.`);
+        return (`${summary} Is's currenty ${temperature} degrees out. There is a ${(precipProbability * 100).toPrecision(2)}% chance of rain.`);
     } catch(err) {
         if(err.statusCode) throw(new Error('Location not found.'));
         else throw(new Error('Unable to connect to weather service.'));

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css');
 
 body {
     color: #303030;
@@ -39,4 +40,61 @@ header a {
     color: #5a5a5a;
     text-decoration: none;
     margin-right: 10px;
+}
+
+.search-container {
+    display: flex;
+    border: 2px solid #7a7a7a;
+    width: 200px;
+    justify-content: space-between;
+}
+
+input {
+    padding: 10px;
+    flex-grow: 1;
+    width: 0;
+    border: none;
+}
+
+input:focus {
+    outline: none;
+    border: none;
+}
+
+button {
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    margin: 0px 5px;
+    color: #7a7a7a;
+}
+
+button:hover {
+    color: #3a3a3a;
+}
+
+button:focus{
+    outline: none;
+}
+
+
+.message-container {
+    padding-left: 10px;
+    box-sizing: border-box;
+    border-left: 2px dashed #7a7a7a;
+}
+
+#message-1 {
+    margin: 0;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+#message-2 {
+    margin: 8px 0px;
+}
+
+footer i {
+    font-size: 14px;
+    color: pink;
 }

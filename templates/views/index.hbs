@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <head>
     <link rel="icon" href="/img/icon.png" type="img/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <link rel="stylesheet" href="/css/styles.css">
-    <script src="/js/app.js"></script>
     <title>Weather</title>
 </head>
 <body>
     <div class="main-content">
         {{>header}}
-        Weather site.
+        <p>Hope you are doing fine today.</p>
+
+        <form>
+            <div class="search-container">
+                <input type="text" placeholder="Location" />
+                <button><i class="fas fa-search"></i></button>
+            </div>            
+        </form>
+
+        <div class="message-container">
+            <p id="message-1"></p>
+            <p id="message-2"></p>
+        </div>
     </div>
     {{>footer}}
+    <script src="/js/app.js"></script>
 </body>
 </html>
