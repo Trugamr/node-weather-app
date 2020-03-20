@@ -2,7 +2,7 @@ require("dotenv").config();
 const path = require("path");
 const express = require("express");
 const { getWeather } = require("../utils/weather");
-const { getGeoCode } = require("../utils/geoCode");
+const { getGeoCode } = require("../utils/geocode");
 const hbs = require("hbs");
 
 // let coords = {
