@@ -4,6 +4,7 @@ const express = require("express");
 const { getWeather } = require("../utils/weather");
 const { getGeoCode } = require("../utils/geocode");
 const hbs = require("hbs");
+const cors = require("cors");
 
 // let coords = {
 //     longitude: 76.779419,
@@ -17,6 +18,9 @@ const PORT = process.env.PORT || 3000;
 const publicPath = path.join(__dirname, "../public");
 const viewsPath = path.join(__dirname, "../templates/views");
 const partialsPath = path.join(__dirname, "../templates/partials");
+
+// allow CORS
+app.use(cors());
 
 // set handlebars engine and views location
 app.set("view engine", "hbs");
