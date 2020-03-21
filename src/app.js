@@ -35,10 +35,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/weather", async (req, res) => {
-  const { search } = req.query;
+  const { search, units = "si" } = req.query;
+
   if (search) {
     try {
-      const data = await getForecast(search);
+      const data = await getForecast({ search, units });
       data.search = search;
       return res.send(data);
     } catch (err) {
@@ -72,10 +73,11 @@ app.get("*", (req, res) => {
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
 
-const getForecast = async location => {
+const getForecast = async queryParams => {
+  const { search } = queryParams;
   try {
-    const coords = await getGeoCode(location);
-    const weather = await getWeather(coords);
+    const coords = await getGeoCode(search);
+    const weather = await getWeather(coords, queryParams);
     return { ...coords, ...weather };
   } catch (err) {
     throw err;

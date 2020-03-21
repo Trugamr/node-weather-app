@@ -1,6 +1,8 @@
 const request = require("request-promise");
 
-const getWeather = async ({ longitude, latitude }) => {
+const getWeather = async ({ longitude, latitude }, queryParams) => {
+  const { units } = queryParams;
+
   const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
   const WEATHER_BASE_URL = `https://api.darksky.net/forecast/${WEATHER_API_KEY}/`;
   const options = {
@@ -8,7 +10,7 @@ const getWeather = async ({ longitude, latitude }) => {
     baseUrl: WEATHER_BASE_URL,
     json: true,
     qs: {
-      units: "si",
+      units,
       lang: "en"
     }
   };
