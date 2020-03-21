@@ -35,11 +35,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/weather", async (req, res) => {
-  const { search, units = "si" } = req.query;
+  const { search, units = "si", lang = "en" } = req.query;
 
   if (search) {
     try {
-      const data = await getForecast({ search, units });
+      const data = await getForecast({ search, units, lang });
       data.search = search;
       return res.send(data);
     } catch (err) {
