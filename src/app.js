@@ -7,9 +7,9 @@ const hbs = require("hbs");
 const cors = require("cors");
 
 // let coords = {
-//     longitude: 76.779419,
-//     latitude: 30.7327891
-// }
+//   longitude: 76.79111,
+//   latitude: 30.73528
+// };
 
 const app = new express();
 const PORT = process.env.PORT || 3000;
@@ -35,11 +35,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/weather", async (req, res) => {
-  const { search, units = "si", lang = "en" } = req.query;
+  const { search, units = "si", lang = "en", latitude, longitude } = req.query;
 
-  if (search) {
+  if (search || (latitude && longitude)) {
     try {
-      const data = await getForecast({ search, units, lang });
+      const data = await getInfo({ search, units, lang, latitude, longitude });
       data.search = search;
       return res.send(data);
     } catch (err) {
@@ -73,10 +73,12 @@ app.get("*", (req, res) => {
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
 
-const getForecast = async queryParams => {
-  const { search } = queryParams;
+const getInfo = async queryParams => {
+  const { search, latitude, longitude } = queryParams;
   try {
-    const coords = await getGeoCode(search);
+    let coords;
+    if (latitude && longitude) coords = { latitude, longitude };
+    else coords = await getGeoCode(search);
     const weather = await getWeather(coords, queryParams);
     return { ...coords, ...weather };
   } catch (err) {
@@ -84,5 +86,5 @@ const getForecast = async queryParams => {
   }
 };
 
-if (process.argv[2]) getForecast(process.argv[2]);
+if (process.argv[2]) getInfo(process.argv[2]);
 else console.log("Please provide a location.");
