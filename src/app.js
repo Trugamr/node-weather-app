@@ -2,7 +2,7 @@ require("dotenv").config();
 const path = require("path");
 const express = require("express");
 const { getWeather } = require("../utils/weather");
-const { getGeoCode } = require("../utils/geocode");
+const { getGeoCode, getPlaceInfo } = require("../utils/geocode");
 const hbs = require("hbs");
 const cors = require("cors");
 
@@ -44,13 +44,13 @@ app.get("/weather", async (req, res) => {
       return res.send(data);
     } catch (err) {
       return res.send({
-        error: err.message
+        error: err.message,
       });
     }
   }
 
   res.status(200).send({
-    error: "You must provide a search term."
+    error: "You must provide a search term.",
   });
 });
 
@@ -73,11 +73,11 @@ app.get("*", (req, res) => {
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
 
-const getInfo = async queryParams => {
+const getInfo = async (queryParams) => {
   const { search, latitude, longitude } = queryParams;
   try {
     let coords;
-    if (latitude && longitude) coords = { latitude, longitude };
+    if (latitude && longitude) coords = await getPlaceInfo(latitude, longitude);
     else coords = await getGeoCode(search);
     const weather = await getWeather(coords, queryParams);
     return { ...coords, ...weather };
